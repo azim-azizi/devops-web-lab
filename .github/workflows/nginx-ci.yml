@@ -19,6 +19,10 @@ jobs:
       - name: Test the homepage
         run: |
           docker run -d --name azim-web-ci -p 127.0.0.1:8080:80 azim-web:ci
-          curl --retry 10 --retry-connrefused -fsS http://127.0.0.1:8080/ -o /tmp/homepage.html
+          if ! curl -fsS --retry 10 --retry-all-errors --retry-delay 1 --max-time 3 \
+            http://127.0.0.1:8080/ -o /tmp/homepage.html; then
+            docker logs azim-web-ci
+            exit 1
+          fi
           grep -F "<h1>Azim's DevOps Lab</h1>" /tmp/homepage.html
           echo "HTTP smoke test passed"

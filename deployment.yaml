@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azim-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: azim-web
+  template:
+    metadata:
+      labels:
+        app: azim-web
+    spec:
+      containers:
+        - name: azim-web
+          image: localhost/azim-web:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 5

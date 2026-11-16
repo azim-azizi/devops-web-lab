@@ -39,7 +39,7 @@ sudo microk8s kubectl rollout status deployment/azim-web --timeout=90s
 
 Start a fresh port-forward to the new pods. Run the curl check again. I got `<h1>Azim's DevOps Lab v2</h1>`.
 
-![The v2 heading returned by curl](screenshots/v2-running.png)
+![The v2 heading returned by curl](v2-running.png)
 
 ## Roll back and check the page
 
@@ -72,8 +72,6 @@ curl -fsS http://127.0.0.1:8082/ | grep h1
 
 The response was `<h1>Azim's DevOps Lab</h1>`. That confirmed the original page was back.
 
-![The original heading returned by curl after rollback](screenshots/v1-restored.png)
+![The original heading returned by curl after rollback](v1-restored.png)
 
-## GitLab CI
 
-The pipeline definition builds the image, runs `nginx -t`, starts a test container, and checks the homepage heading over HTTP. It needs a GitLab runner that supports Docker-in-Docker with TLS. The rollout and rollback above were done separately on my local VM.
